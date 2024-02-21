@@ -46,7 +46,7 @@ jobs:
         # Filename of file
         # filename: # optional
         # A file type identifier.
-        filetype: "apk"
+        # filetype: "apk"
         # The message text introducing the file in specified channels.
         initial_comment: create APK ${{ job.status }}!
         # Title of file
