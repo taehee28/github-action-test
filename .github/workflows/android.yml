@@ -32,25 +32,25 @@ jobs:
     #     name: app-debug.apk
     #     path: app/build/outputs/apk/debug/app-debug.apk
 
-    # - name: Slack File Upload
-    #   # You may pin to the exact commit or the version.
-    #   # uses: adrey/slack-file-upload-action@903be3678c88966c762193f06530c39178b44d68
-    #   uses: adrey/slack-file-upload-action@1.0.5
-    #   with:
-    #     # Path to file
-    #     path: ./app/build/outputs/apk/app-debug.apk
-    #     # Slack token
-    #     token: ${{ secrets.SLACK_TOKEN }}
-    #     # Slack channels
-    #     channel: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
-    #     # Filename of file
-    #     # filename: # optional
-    #     # A file type identifier.
-    #     # filetype: "apk"
-    #     # The message text introducing the file in specified channels.
-    #     initial_comment: create APK ${{ job.status }}!
-    #     # Title of file
-    #     # title: # optional
+    - name: Slack File Upload
+      # You may pin to the exact commit or the version.
+      # uses: adrey/slack-file-upload-action@903be3678c88966c762193f06530c39178b44d68
+      uses: adrey/slack-file-upload-action@1.0.5
+      with:
+        # Path to file
+        path: $(find app/build/outputs/apk/debug -name '*.apk')
+        # Slack token
+        token: ${{ secrets.SLACK_TOKEN }}
+        # Slack channels
+        channel: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+        # Filename of file
+        # filename: # optional
+        # A file type identifier.
+        # filetype: "apk"
+        # The message text introducing the file in specified channels.
+        initial_comment: create APK ${{ job.status }}!
+        # Title of file
+        # title: # optional
           
     # - name: slack-send
     #   id: slack
@@ -72,5 +72,5 @@ jobs:
     #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
-    - name: send apk to slack
-      run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@$(find app/build/outputs/apk/debug -name '*.apk')
+    # - name: send apk to slack
+    #   run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@$(find app/build/outputs/apk/debug -name '*.apk')
