@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // test1
+        // test2
     }
 }
 
