@@ -24,26 +24,46 @@ jobs:
       run: chmod +x gradlew
       
     - name: Build with Gradle
-      run: ./gradlew build --stacktrace
+      run: ./gradlew assembleDebug --stacktrace
 
-    - name: slack-send
-      id: slack
+    - name: Slack File Upload
       # You may pin to the exact commit or the version.
-      # uses: slackapi/slack-github-action@6c661ce58804a1a20f6dc5fbee7f0381b469e001
-      uses: slackapi/slack-github-action@v1.25.0
+      # uses: adrey/slack-file-upload-action@903be3678c88966c762193f06530c39178b44d68
+      uses: adrey/slack-file-upload-action@1.0.5
       with:
-        # Slack channel ID where message will be posted. Needed if using bot token
-        channel-id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
-        # Message to post into Slack. Needed if using bot token
-        slack-message: "TEST! ${{ job.status }}"
-        # JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead
-        #payload: # optional
-        # path to JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead. If payload is provided, it will take preference over this field
-        #payload-file-path: # optional
-        # The timestamp of a previous message posted. It will update the existing message instead of posting a new message
-        #update-ts: # optional
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        # Path to file
+        path: ./app/debug/app-debug.apk
+        # Slack token
+        token: ${{ secrets.SLACK_TOKEN }}
+        # Slack channels
+        channel: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+        # Filename of file
+        # filename: # optional
+        # A file type identifier.
+        filetype: "apk"
+        # The message text introducing the file in specified channels.
+        initial_comment: create APK ${{ job.status }}!
+        # Title of file
+        # title: # optional
+          
+    # - name: slack-send
+    #   id: slack
+    #   # You may pin to the exact commit or the version.
+    #   # uses: slackapi/slack-github-action@6c661ce58804a1a20f6dc5fbee7f0381b469e001
+    #   uses: slackapi/slack-github-action@v1.25.0
+    #   with:
+    #     # Slack channel ID where message will be posted. Needed if using bot token
+    #     channel-id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+    #     # Message to post into Slack. Needed if using bot token
+    #     slack-message: "TEST! ${{ job.status }}"
+    #     # JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead
+    #     #payload: # optional
+    #     # path to JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead. If payload is provided, it will take preference over this field
+    #     #payload-file-path: # optional
+    #     # The timestamp of a previous message posted. It will update the existing message instead of posting a new message
+    #     #update-ts: # optional
+    #   env:
+    #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
           
           
