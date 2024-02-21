@@ -38,7 +38,7 @@ jobs:
       uses: adrey/slack-file-upload-action@1.0.5
       with:
         # Path to file
-        path: $(find app/build/outputs/apk/debug -name '*.apk')
+        path: find app/build/outputs/apk/debug -name '*.apk'
         # Slack token
         token: ${{ secrets.SLACK_TOKEN }}
         # Slack channels
