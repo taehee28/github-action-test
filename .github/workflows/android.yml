@@ -32,7 +32,7 @@ jobs:
       uses: adrey/slack-file-upload-action@1.0.5
       with:
         # Path to file
-        path: app/build/outputs/apk/app-debug.apk
+        path: ./app/build/outputs/apk/app-debug.apk
         # Slack token
         token: ${{ secrets.SLACK_TOKEN }}
         # Slack channels
