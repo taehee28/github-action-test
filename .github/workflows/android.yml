@@ -26,11 +26,37 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleDebug --stacktrace
 
-    # - name: Upload APK to Github Artifacts
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: app-debug.apk
-    #     path: app/build/outputs/apk/debug/app-debug.apk
+    - name: Decode Keystore
+      env: 
+        ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      run: |
+        echo $ENCODED_STRING > keystore-b64.txt
+        base64 -d keystore-b64.txt > keystore.jks
+
+    - name: Build signed debug apk
+      env: 
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      run: ./gradlew assembleDebug --stacktrace
+
+    - name: Get signed debug apk file path
+      id: debugApk
+      run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
+
+    - name: Sending release build to Slack
+      uses: MeilCli/slack-upload-file@v3
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        file_path: ${{ steps.debugApk.outputs.apkfile }}.zip
+        channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+        initial_comment: "Create signed debug apk ${{ job.status }}"
+    
 
     # - name: Slack File Upload
     #   # You may pin to the exact commit or the version.
@@ -72,5 +98,5 @@ jobs:
     #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
-    - name: send apk to slack
-      run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@$(find app/build/outputs/apk/debug -name '*.apk')
+    # - name: send apk to slack
+    #   run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@$(find app/build/outputs/apk/debug -name '*.apk')
