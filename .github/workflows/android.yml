@@ -49,13 +49,13 @@ jobs:
       id: debugApk
       run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
-    - name: Sending release build to Slack
-      uses: MeilCli/slack-upload-file@v3
-      with:
-        slack_token: ${{ secrets.SLACK_TOKEN }}
-        file_path: ${{ steps.debugApk.outputs.apkfile }}
-        channel_id: "${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}"
-        initial_comment: "Create signed debug apk ${{ job.status }}"
+    # - name: Sending release build to Slack
+    #   uses: MeilCli/slack-upload-file@v3
+    #   with:
+    #     slack_token: ${{ secrets.SLACK_TOKEN }}
+    #     file_path: ${{ steps.debugApk.outputs.apkfile }}
+    #     channel_id: "${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}"
+    #     initial_comment: "Create signed debug apk ${{ job.status }}"
     
 
     # - name: Slack File Upload
@@ -98,5 +98,5 @@ jobs:
     #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
 
-    # - name: send apk to slack
-    #   run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@$(find app/build/outputs/apk/debug -name '*.apk')
+    - name: send apk to slack
+      run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@${{ steps.debugApk.outputs.apkfile }}
