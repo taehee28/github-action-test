@@ -54,7 +54,7 @@ jobs:
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         file_path: ${{ steps.debugApk.outputs.apkfile }}
-        channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+        channel_id: github-action-apk #${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
         initial_comment: "Create signed debug apk ${{ job.status }}"
     
 
