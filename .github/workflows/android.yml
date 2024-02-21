@@ -53,7 +53,7 @@ jobs:
       uses: MeilCli/slack-upload-file@v3
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
-        file_path: ${{ steps.debugApk.outputs.apkfile }}.zip
+        file_path: ${{ steps.debugApk.outputs.apkfile }}
         channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
         initial_comment: "Create signed debug apk ${{ job.status }}"
     
