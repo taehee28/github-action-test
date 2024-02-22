@@ -36,39 +36,45 @@ jobs:
         echo $ENCODED_STRING > keystore-b64.txt
         base64 -d keystore-b64.txt > keystore.jks
         cp keystore.jks ./app/keystore.jks
+        ls
+        cd app
+        pwd
+        ls
+        cd ..
 
     - name: Create keystore.properties file
       env:
         KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
       run: |
         echo $KEYSTORE_PROPERTIES > keystore.properties
+        ls
 
-    - name: Build signed debug apk
-      # env: 
-      #   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-      #   KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-      #   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      run: ./gradlew assembleDebug --stacktrace
+    # - name: Build signed debug apk
+    #   # env: 
+    #   #   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    #   #   KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+    #   #   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    #   run: ./gradlew assembleDebug --stacktrace
 
-    - name: Get signed debug apk file path
-      id: debugApk
-      run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
+    # - name: Get signed debug apk file path
+    #   id: debugApk
+    #   run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
-    - name: slack upload file
-      uses: MeilCli/slack-upload-file@v4.0.0
-      with:
-        slack_token: ${{ secrets.SLACK_TOKEN }}
-        channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
-        # File contents via a POST variable. If omitting this parameter, you must provide a file.
-        content: 'content'
-        # File contents via multipart/form-data. If omitting this parameter, you must submit content.
-        file_path: '${{ steps.debugApk.outputs.apkfile }}'
-        # file_type: 'apk'
-        # file not founding options: warn, error or ignore. alike actions/upload-artifact
-        if_no_files_found: error
-        initial_comment: 'create signed apk file: ${{ job.status }}'
-        # max API retry count. default retries is 3
-        # retries: # optional
+    # - name: slack upload file
+    #   uses: MeilCli/slack-upload-file@v4.0.0
+    #   with:
+    #     slack_token: ${{ secrets.SLACK_TOKEN }}
+    #     channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+    #     # File contents via a POST variable. If omitting this parameter, you must provide a file.
+    #     content: 'content'
+    #     # File contents via multipart/form-data. If omitting this parameter, you must submit content.
+    #     file_path: '${{ steps.debugApk.outputs.apkfile }}'
+    #     # file_type: 'apk'
+    #     # file not founding options: warn, error or ignore. alike actions/upload-artifact
+    #     if_no_files_found: error
+    #     initial_comment: 'create signed apk file: ${{ job.status }}'
+    #     # max API retry count. default retries is 3
+    #     # retries: # optional
 
     # - name: send apk to slack
     #   run: curl https://slack.com/api/files.upload -F token=${{ secrets.SLACK_TOKEN }} -F channels=${{ secrets.SLACK_CHANNEL_APK_DELIVERY }} -F file=@${{ steps.debugApk.outputs.apkfile }}
