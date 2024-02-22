@@ -34,7 +34,9 @@ jobs:
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         echo $ENCODED_STRING > keystore-b64.txt
-        base64 -d keystore-b64.txt > debug.keystore
+        base64 -d keystore-b64.txt > keystore.jks
+        pwd
+        ls
 
     - name: Build signed debug apk
       env: 
