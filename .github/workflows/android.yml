@@ -45,6 +45,7 @@ jobs:
         echo -e "storePassword=123456\n" >> keystore.properties
         echo -e "keyAlias=key0\n" >> keystore.properties
         echo "keyPassword=123456" >> keystore.properties
+        cat keystore.properties
 
     - name: Build signed debug apk
       # env: 
