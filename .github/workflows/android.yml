@@ -36,18 +36,15 @@ jobs:
         echo $ENCODED_STRING > keystore-b64.txt
         base64 -d keystore-b64.txt > keystore.jks
         cp keystore.jks ./app/keystore.jks
-        ls
-        cd app
-        pwd
-        ls
-        cd ..
 
     - name: Create keystore.properties file
       env:
         KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
       run: |
-        echo $KEYSTORE_PROPERTIES > keystore.properties
-        ls
+        echo -e "storeFile=./keystore.jks\n" > keystore.properties
+        echo -e "storePassword=123456\n" >> keystore.properties
+        echo -e "keyAlias=key0\n" >> keystore.properties
+        echo "keyPassword=123456" >> keystore.properties
 
     - name: Build signed debug apk
       # env: 
