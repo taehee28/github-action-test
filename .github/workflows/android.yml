@@ -33,7 +33,7 @@ jobs:
         KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
-        echo $ENCODED_STRING > keystore-b64.txt
+        echo $ENCODED_STRING > keystore-b64.txt |
         base64 -d keystore-b64.txt > keystore.jks
 
     - name: Build signed debug apk
