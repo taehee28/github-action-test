@@ -33,7 +33,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            storeFile = File("../debug.keystore")
+            storeFile = File("./keystore.jks")
             storePassword = System.getenv("KEYSTORE_PASSWORD")
             keyAlias = System.getenv("KEYSTORE_ALIAS")
             keyPassword = System.getenv("KEY_PASSWORD")
@@ -41,9 +41,9 @@ android {
     }
 
     buildTypes {
-        /*debug {
+        debug {
             signingConfig = signingConfigs.getByName("debug")
-        }*/
+        }
 
         release {
             isMinifyEnabled = false
