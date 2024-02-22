@@ -56,6 +56,22 @@ jobs:
     #     file_path: ${{ steps.debugApk.outputs.apkfile }}
     #     channel_id: "${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}"
     #     initial_comment: "Create signed debug apk ${{ job.status }}"
+
+    - name: slack upload file
+      uses: MeilCli/slack-upload-file@v4.0.0
+      with:
+        slack_token: ${{ secrets.SLACK_TOKEN }}
+        channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
+        # File contents via a POST variable. If omitting this parameter, you must provide a file.
+        content: 'content'
+        # File contents via multipart/form-data. If omitting this parameter, you must submit content.
+        file_path: '${{ steps.debugApk.outputs.apkfile }}'
+        file_type: 'apk'
+        # file not founding options: warn, error or ignore. alike actions/upload-artifact
+        if_no_files_found: error
+        initial_comment: 'Create signed debug apk ${{ job.status }}'
+        # max API retry count. default retries is 3
+        # retries: # optional
     
 
     # - name: Slack File Upload
