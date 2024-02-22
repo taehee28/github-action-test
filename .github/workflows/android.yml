@@ -12,50 +12,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+    # - uses: actions/checkout@v3
+    # - name: set up JDK 17
+    #   uses: actions/setup-java@v3
+    #   with:
+    #     java-version: '17'
+    #     distribution: 'temurin'
+    #     cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    # - name: Grant execute permission for gradlew
+    #   run: chmod +x gradlew
       
     # - name: Build with Gradle
     #   run: ./gradlew assembleDebug --stacktrace
 
-    - name: Decode Keystore
-      env: 
-        ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    # - name: Decode Keystore
+    #   env: 
+    #     ENCODED_STRING: ${{ secrets.KEYSTORE_BASE_64 }}
+    #     KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    #     KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+    #     KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      run: |
-        echo $ENCODED_STRING > keystore-b64.txt
-        base64 -d keystore-b64.txt > keystore.jks
+    #   run: |
+    #     echo $ENCODED_STRING > keystore-b64.txt
+    #     base64 -d keystore-b64.txt > keystore.jks
 
-    - name: Build signed debug apk
-      env: 
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    # - name: Build signed debug apk
+    #   env: 
+    #     KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+    #     KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+    #     KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
-      run: ./gradlew assembleDebug --stacktrace
+    #   run: ./gradlew assembleDebug --stacktrace
 
-    - name: Get signed debug apk file path
-      id: debugApk
-      run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
-
-    # - name: Sending release build to Slack
-    #   uses: MeilCli/slack-upload-file@v3
-    #   with:
-    #     slack_token: ${{ secrets.SLACK_TOKEN }}
-    #     file_path: ${{ steps.debugApk.outputs.apkfile }}
-    #     channel_id: "${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}"
-    #     initial_comment: "Create signed debug apk ${{ job.status }}"
+    # - name: Get signed debug apk file path
+    #   id: debugApk
+    #   run: echo "apkfile=$(find app/build/outputs/apk/debug/*.apk)" >> $GITHUB_OUTPUT
 
     - name: slack upload file
       uses: MeilCli/slack-upload-file@v4.0.0
@@ -63,13 +55,13 @@ jobs:
         slack_token: ${{ secrets.SLACK_TOKEN }}
         channel_id: ${{ secrets.SLACK_CHANNEL_APK_DELIVERY }}
         # File contents via a POST variable. If omitting this parameter, you must provide a file.
-        content: 'content'
+        # content: 'content'
         # File contents via multipart/form-data. If omitting this parameter, you must submit content.
-        file_path: '${{ steps.debugApk.outputs.apkfile }}'
-        file_type: 'apk'
+        # file_path: '${{ steps.debugApk.outputs.apkfile }}'
+        # file_type: 'apk'
         # file not founding options: warn, error or ignore. alike actions/upload-artifact
-        if_no_files_found: error
-        initial_comment: 'Create signed debug apk ${{ job.status }}'
+        # if_no_files_found: error
+        initial_comment: 'TEST!!'
         # max API retry count. default retries is 3
         # retries: # optional
     
