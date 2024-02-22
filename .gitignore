@@ -48,4 +48,5 @@ google-services.json
 .externalNativeBuild
 .cxx
 local.properties
+keystore.properties
 >>>>>>> 15fe87e (Create project)
