@@ -41,7 +41,6 @@ jobs:
         echo "storePassword=$KEYSTORE_PASSWORD" >> keystore.properties
         echo "keyAlias=$KEYSTORE_ALIAS" >> keystore.properties
         echo "keyPassword=$KEY_PASSWORD" >> keystore.properties
-        cat keystore.properties
 
     - name: Build signed debug apk
       run: ./gradlew assembleDebug --stacktrace
