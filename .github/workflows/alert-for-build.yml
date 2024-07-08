@@ -61,4 +61,6 @@ jobs:
           # payload-file-path-parsed: # optional, default is true
           # The timestamp of a previous message posted. It will update the existing message instead of posting a new message
           # update-ts: # optional
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           
