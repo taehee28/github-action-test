@@ -35,21 +35,22 @@ jobs:
               "text": "payload text"
               "attachments": [
                 {
-                  "text": "choose an action",
+                  "callback_id": "choose_build_type",
+                  "text": "if you want to build, choose a type",
                   "color": "#abcdef",
                   "attachment_type": "default",
                   "actions": [
                     {
-                      "name": "build-release",
+                      "name": "build-type",
                       "text": "build release",
                       "type": "button",
-                      "value": "build-release"
+                      "value": "release"
                     },
                     {
-                      "name": "build-debug",
+                      "name": "build-type",
                       "text": "build debug",
                       "type": "button",
-                      "value": "build-debug"
+                      "value": "debug"
                     }
                   ]
                 }
