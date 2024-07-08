@@ -36,9 +36,7 @@ jobs:
               "attachments": [
                 {
                   "callback_id": "choose_build_type",
-                  "text": "if you want to build, choose a type",
-                  "color": "#abcdef",
-                  "attachment_type": "default",
+                  "pretext": "if you want to build, choose a type",
                   "actions": [
                     {
                       "name": "build-type",
@@ -63,5 +61,5 @@ jobs:
           # The timestamp of a previous message posted. It will update the existing message instead of posting a new message
           # update-ts: # optional
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
           
