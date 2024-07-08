@@ -32,27 +32,47 @@ jobs:
           # JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead
           payload: |
             {
-              "text": "payload text"
-              "attachments": [
-                {
-                  "callback_id": "choose_build_type",
-                  "pretext": "if you want to build, choose a type",
-                  "actions": [
-                    {
-                      "name": "build-type",
-                      "text": "build release",
-                      "type": "button",
-                      "value": "release"
-                    },
-                    {
-                      "name": "build-type",
-                      "text": "build debug",
-                      "type": "button",
-                      "value": "debug"
-                    }
-                  ]
-                }
-              ]
+            	"blocks": [
+            		{
+            			"type": "section",
+            			"text": {
+            				"type": "mrkdwn",
+            				"text": "새로운 작업이 push되었습니다."
+            			}
+            		},
+            		{
+            			"type": "section",
+            			"text": {
+            				"type": "mrkdwn",
+            				"text": "*branch:* relese-**"
+            			}
+            		},
+            		{
+            			"type": "actions",
+            			"elements": [
+            				{
+            					"type": "button",
+            					"text": {
+            						"type": "plain_text",
+            						"emoji": true,
+            						"text": "release로 빌드하기"
+            					},
+            					"value": "build-type",
+            					"action_id": "build-release"
+            				},
+            				{
+            					"type": "button",
+            					"text": {
+            						"type": "plain_text",
+            						"emoji": true,
+            						"text": "debug로 빌드하기"
+            					},
+            					"value": "build-type",
+            					"action_id": "build-debug"
+            				}
+            			]
+            		}
+            	]
             }
           # path to JSON payload to send to Slack if webhook route. If not supplied, json from GitHub event will be sent instead. If payload is provided, it will take preference over this field
           # payload-file-path: # optional
