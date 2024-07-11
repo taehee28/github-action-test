@@ -32,7 +32,16 @@ android {
     }
 
     signingConfigs {
-        getByName("release") {
+        getByName("debug") {
+            val keystoreProp = getProperties("keystore.properties")
+
+            storeFile = File(keystoreProp.getProperty("storeFile"))
+            storePassword = keystoreProp.getProperty("storePassword")
+            keyAlias = keystoreProp.getProperty("keyAlias")
+            keyPassword = keystoreProp.getProperty("keyPassword")
+        }
+
+        create("release") {
             val keystoreProp = getProperties("keystore.properties")
 
             storeFile = File(keystoreProp.getProperty("storeFile"))
@@ -44,8 +53,7 @@ android {
 
     buildTypes {
         debug {
-            signingConfig = signingConfigs.getByName("release")
-
+            signingConfig = signingConfigs.getByName("debug")
         }
 
         release {
