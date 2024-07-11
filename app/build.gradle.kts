@@ -32,7 +32,7 @@ android {
     }
 
     signingConfigs {
-        getByName("debug") {
+        getByName("release") {
             val keystoreProp = getProperties("keystore.properties")
 
             storeFile = File(keystoreProp.getProperty("storeFile"))
@@ -43,11 +43,14 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
-            signingConfig = signingConfigs.getByName("debug")
+        debug {
+            signingConfig = signingConfigs.getByName("release")
+
         }
 
         release {
+            signingConfig = signingConfigs.getByName("release")
+
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
