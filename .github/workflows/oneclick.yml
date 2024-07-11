@@ -1,4 +1,4 @@
-name: Android CI
+name: oneclick-build
 
 on:
     workflow_dispatch:
